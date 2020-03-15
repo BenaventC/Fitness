@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Valentin Mesa - Halim Rahmani - Allan Lhoni / Master GDO-Mopp Université Paris Nanterre" />
+
+
+<title>Courir après un meilleur soi</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Courir après un meilleur soi</h1>
+<h4 class="author">Valentin Mesa - Halim Rahmani - Allan Lhoni / Master GDO-Mopp Université Paris Nanterre</h4>
+<h4 class="date">15 mars 2020</h4>
+
+</div>
+
+
+<style type="text/css">
+body, td {
+   font-size: 12px;
+}
+code.r{
+  font-size: 10px;
+}
+h1{
+  font-size: 24px;
+}
+h2{
+  font-size: 18px;
+}
+h3{
+  font-size: 14px;
+}
+pre {
+  font-size: 11px
+}
+</style>
+<div class="figure">
+<img src="RequinGpsDrawing.jpeg" style="width:65.0%" alt="" />
+<p class="caption">GPS drawing</p>
+</div>
+<p>Les technologies permettent de nos jours de mesurer notre activité physique (sport, sommeil, ou données biologiques simples comme la fréquence cardiaque) à moindre frais. Des capteurs, intégrés à des équipements connectés que l’on porte (les “wearables” : montres connectées ou même smartphones), récoltent des quantités énormes de données liées à notre activité. Ces données sont ensuite digérées par des applications qui vont nous en donner une représentation. De la simple visualisation à la mise en place d’objectifs en termes de performances, ces applications se complexifient et intègrent dorénavant des composantes sociales. Par ailleurs, chaque smartphone a au moins une application de ce type pré-installée.</p>
+<p>“Quantified self” ou “personal informatics” sont les termes qui se rapportent à ces pratiques, et font appel à de nombreuses notions : auto-surveillance, amélioration de performances, et “social fitness” (Lupton, 2015). À quel point les “quantified selfers” ont-ils adopté ces concepts ? Nous allons tenter de mesurer cela à travers l’analyse des commentaires des utilisateurs d’applications de la mesure de soi. Pour faire surgir les concepts du quantified self dans les textes récoltés, nous utiliserons des méthodes de plongement lexical (ou “word embedding”), à savoir les techniques de Word2Vec. Ces modèles de machine learning permettent d’obtenir une représentation vectorielle de chaque mot unique utilisé et d’en déduire les relations sémantiques entre mots (Mikolov et al., 2013). Ces méthodes n’ont encore été que trop peu utilisées dans le domaine des sciences sociales (Kozlowski, Taddi et Evans; 2019).</p>
+<div id="la-course-aux-données-des-applications-bien-installées" class="section level2">
+<h2>La course aux données : des applications bien installées</h2>
+<p>Nous avons choisi quatre applications destinées à la capture de l’activité physique, en particulier la course à pied : Strava (2009), adidas Running by Runtastic (2009), Runkeeper (2008), et Endomondo (2007). Ces quatre applications se servent de la fonctionnalité GPS du téléphone ou de d’autres appareils connectés afin de récolter diverses données liées à la course (temps, vitesse, élévation, etc.). Ces plate-formes permettent aussi à leurs utilisateurs de récolter d’autres données biologiques s’ils ont le capteur correspondant. Par exemple, elles intègrent le rythme cardiaque à condition que l’utilisateur possède une brassard ou une montre connectés. Chaque plate-forme propose par ailleurs un service d’abonnement, ou premium, qui permet aux utilisateurs d’avoir accès à différents modes de présentation de leurs données, mais aussi des programmes d’entraînement plus poussés.</p>
+<p>Les trois applications touchent une population large : Strava, adidas Running by Runtastic et Endomondo comptabilisent chacune plus de 10 millions de téléchargements rien que sur le Google Play Store, tandis que Runkeeper peut se targuer de plus de 50 millions de téléchargements, là aussi sur le store de Google. Tandis que Strava est un “pure player” de la plate-forme, adidas Running by Runtastic, Runkeeper et Endomondo se positionnent dans le domaine des capteurs connectés. Autrefois indépendants, Runtastic a été acheté par adidas, Runkeeper par ASICS, et Endomondo par Under Armour.</p>
+</div>
+<div id="récolte-et-préparation-des-données." class="section level2">
+<h2>Récolte et préparation des données.</h2>
+<p>À partir d’une méthode de scraping, nous avons constitué une base de données de plus de 30 000 commentaires provenant des quatre applications. La méthode de scraping consiste dans l’exécution dans la console développeur du navigateur Google Chrome d’un programme écrit en Javascript. Exécuté sur la page web de l’application dans le Google Play Store et sur l’Apple Store, ce code permet l’extraction de l’ensemble des commentaires contenus dans la page.</p>
+<p>Pour toutes les opérations liées à la création et à la manipulation du modèle vectoriel, nous utilisons la librairie <code>wordVectors</code> de Benjamin Schmidt, disponible sur le github de ce dernier : <a href="https://github.com/bmschmidt/wordVectors" class="uri">https://github.com/bmschmidt/wordVectors</a>.</p>
+<p>Afin de préparer le modèle vectoriel, nous avons rassemblé dans un unique fichier texte l’ensemble des commentaires, après avoir utilisé un module de NLP afin de supprimer les mots vides (stopwords).</p>
+<p>La création du modèle vectoriel se fait en deux étapes. Tout d’abord, on appelle la fonction <code>prep_word2vec</code> qui permet de nettoyer notre fichier de commentaires. Le paramètre <code>bundle_ngrams</code>valant 2, la fonction va regrouper des paquets de 2 mots fréquemment utilisés ensemble. Enfin la fonction <code>train_word2vec</code> va créer le modèle proprement dit, et l’inscrire dans un fichier pour éviter de répéter l’opération lors d’usages ponctuels.</p>
+<pre class="r"><code>if (!file.exists(&quot;quantified_self.txt&quot;)) {
+  #si le fichier n&#39;existe pas, on lit nos données brutes, et on nettoie le corpus des stop words
+  cnlp_init_udpipe(model_name = &quot;french&quot;)
+  runtastic_android&lt;-read_delim(&quot;runtastic_final.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+  runtastic_ios&lt;-read_delim(&quot;runtastic_ios.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+  runtastic&lt;-rbind(runtastic_android, runtastic_ios)
+  
+  strava_android&lt;-read_delim(&quot;strava_android.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+  strava_ios&lt;-read_delim(&quot;strava_ios.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+  strava&lt;-rbind(strava_android, strava_ios)
+  
+  runkeeper_android&lt;-read_delim(&quot;runkeeper_android.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+  runkeeper_ios&lt;-read_delim(&quot;runkeeper_ios.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+  runkeeper&lt;-rbind(runkeeper_android, runkeeper_ios)
+  
+  endomondo&lt;-read_delim(&quot;endomondo.csv&quot;, &quot;;&quot;, escape_double = FALSE, trim_ws = TRUE)
+  
+  
+  obj&lt;-rbind(runtastic, strava, runkeeper, endomondo)
+  names(obj)[names(obj)==&quot;Comment&quot;] &lt;- &quot;text&quot; 
+  
+  Vocab&lt;-cnlp_annotate(obj)
+  #filtrage sur les stopwords
+  updated_vocab = filter(Vocab$token, !(upos %in% c(&#39;ADP&#39;,&#39;DET&#39;,&#39;SCONJ&#39;, &#39;PRON&#39;)))
+  all_comments &lt;- paste(updated_vocab[&#39;token&#39;], sep= &quot; &quot;)
+  write.table(all_comments, file=&quot;comments/comments.txt&quot;)
+  prep_word2vec(origin=&quot;comments&quot;,destination=&quot;quantified_self.txt&quot;,lowercase=T,bundle_ngrams=2)
+}
+if (!file.exists(&quot;quantified_self_vectors.bin&quot;)) {model = train_word2vec(&quot;quantified_self.txt&quot;,&quot;quantified_self_vectors.bin&quot;,vectors=400,threads=4,window=8,iter=5,negative_samples=0)} else model = read.vectors(&quot;quantified_self_vectors.bin&quot;)</code></pre>
+</div>
+<div id="exploration-du-modèle-vectoriel-à-la-recherche-du-quantified-self" class="section level2">
+<h2>Exploration du modèle vectoriel : à la recherche du quantified self</h2>
+<p>Qui sont les quantified selfers ?</p>
+<pre class="r"><code>foo&lt;-model %&gt;% closest_to(&quot;sportifs&quot;,30)
+foo$Similarity&lt;-foo[,2]
+g1&lt;-ggplot(foo, aes(x=reorder(word, Similarity),y=Similarity))+geom_point(col=&quot;black&quot;,size=3)+coord_flip()+theme_minimal()+scale_y_log10()
+g1</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot1-1.png" width="768" /> On note ici l’ambition des quantified selfers : ce sont des “pros”, des sportifs “confirmés”, qui cherchent l’“excellence”. Remarquons ici les deux sports majoritaires : la course et le cyclisme. Au coeur de la notion de quantified self résident les données, la ressource principale de ces plate-formes.</p>
+<pre class="r"><code>foo&lt;-model %&gt;% closest_to(&quot;mesures&quot;,25)
+foo$Similarity&lt;-foo[,2]
+g2&lt;-ggplot(foo, aes(x=reorder(word, Similarity),y=Similarity))+geom_point(col=&quot;black&quot;,size=3)+coord_flip()+theme_minimal()+scale_y_log10()
+g2</code></pre>
+<p><img src="fitnessapp_files/figure-html/mots2-1.png" width="768" /></p>
+<p>La qualité de la donnée est ici une préoccupation forte des quantified selfers. Ils s’inscrivent dans une pratique rationnelle du sport, aussi toute donnée “erronée”, “incohérente”, ou tout simplement “fausse” vient contrecarrer leurs plans.</p>
+<p>Nous poursuivons en cherchant les mots associés aux “performances”.</p>
+<pre class="r"><code>foo&lt;-model %&gt;% closest_to(&quot;performance&quot;,25)
+foo$Similarity&lt;-foo[,2]
+g3&lt;-ggplot(foo, aes(x=reorder(word, Similarity),y=Similarity))+geom_point(col=&quot;black&quot;,size=3)+coord_flip()+theme_minimal()+scale_y_log10()
+g3</code></pre>
+<p><img src="fitnessapp_files/figure-html/mots3-1.png" width="768" /> Ce premier résultat nous montre deux choses à proposes du suivi des performances sur ces applications. Premièrement, la mesure de la performance est l’occasion pour le quantified selfer d’entamer une rélfexion sur soi : le jugement et l’observation sont de mise. Ensuite, le besoin de comparer performances présentes et passées est aussi présent (“évolutions”, “comparer performances”).</p>
+<p>Regardons maintenant les mots associés à la motivation.</p>
+<pre class="r"><code>foo&lt;-model %&gt;% closest_to(&quot;motivation&quot;,25)
+foo$Similarity&lt;-foo[,2]
+g2&lt;-ggplot(foo, aes(x=reorder(word, Similarity),y=Similarity))+geom_point(col=&quot;black&quot;,size=3)+coord_flip()+theme_minimal()+scale_y_log10()
+g2</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot4-1.png" width="768" /></p>
+<p>Dans quel but les utilisateurs sont-ils motivés ? Le dépassement de soi (“dépasser” en troisième position), mais on trouve aussi en filigrane la motivation à mesurer ses performances, les comparer. Toutefois, notons ici que les quantified selfers entretiennent non seulement leur motivation, mais aussi leur forme !</p>
+<p>Le quantified self n’est pas une affaire seulement personnelle. Regardons ici les mots associés à “social”.</p>
+<pre class="r"><code>foo&lt;-model %&gt;% closest_to(&quot;social&quot;,30)
+foo$Similarity&lt;-foo[,2]
+g2&lt;-ggplot(foo, aes(x=reorder(word, Similarity),y=Similarity))+geom_point(col=&quot;black&quot;,size=3)+coord_flip()+theme_minimal()
+g2</code></pre>
+<p><img src="fitnessapp_files/figure-html/mots5-1.png" width="768" /></p>
+<p>La composante sociale apparaît ici comme un vecteur important de motivation (“hyper motivant” en quatrième position). Le social fitness est ici à l’honneur : les capacités de réseau social de ces applications de mesure de soi sont en effet mises en avant sur les pages mêmes des différents “app stores”. Mais si le partage est une dimension importante du social fitness, le défi et la compétition en sont une composante.</p>
+<p>Enfin, le quantified self est fortement lié à la technologie, et au besoin de synchronisation entre capteurs et applications.</p>
+<pre class="r"><code>foo&lt;-model %&gt;% closest_to(c(&quot;bluetooth&quot;,&quot;synchronisation&quot;),25)
+foo$Similarity&lt;-foo[,2]
+g5&lt;-ggplot(foo, aes(x=reorder(word, Similarity),y=Similarity))+geom_point(col=&quot;black&quot;,size=3)+coord_flip()+theme_minimal()+scale_y_log10()
+g5</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot6-1.png" width="768" /></p>
+<pre class="r"><code>tastes = model[[c(&quot;bluetooth&quot;,&quot;synchronisation&quot;),average=F]]
+# model[1:3000,] here restricts to the 3000 most common words in the set.
+techno = model[1:3000,] %&gt;% cosineSimilarity(tastes)
+# Filter to the top 20 sweet or salty.
+techno = techno[
+  rank(-techno[,1])&lt;25 |
+  rank(-techno[,2])&lt;25,
+  ]
+plot(techno,type=&#39;n&#39;)
+text(techno,labels=rownames(techno), cex=.7)</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot6-2.png" width="768" /></p>
+<p>L’aspect matériel jaillit surtout sous la forme de problèmes dans les avis des utilisateurs. Dans un besoin de précision et de confort, les quantified selfers ont recours à une variété de capteurs, dont on retrouve quelques représentants ci-dessus. Les applications doivent être capables de gérer ces différentes sources de données, aussi il n’est pas étonnant de constater le mécontentement de certains.</p>
+</div>
+<div id="le-quantified-self-en-une-image" class="section level2">
+<h2>Le quantified self en une image</h2>
+<p>Nous sélectionnons quatre mots qui condense la notion de quantified self : “mesurer”, “performance” “motovation” et “social” et nous recherchons pour chacun les 20 mots qui leurs sont le plus proches et les précisent. En utilisant ces quatre mots ( et leurs corrélats), nous pouvons réaliser une première classification de notre corpus selon ces axes, que l’on va représenter sous la forme d’un dendogramm avec <code>Ape</code>.</p>
+<pre class="r"><code>q_words = c(&quot;mesurer&quot;, &quot;performance&quot;, &quot;social&quot;, &quot;motivation&quot;)
+term_set = lapply(q_words, 
+                  function(q_word) {
+                    nearest_words = model %&gt;% closest_to(model[[q_word]],25)
+                    nearest_words$word
+                  }) %&gt;% unlist
+
+subset = model[[term_set,average=F]]
+
+# subset %&gt;%
+#   cosineDist(subset) %&gt;%
+#   as.dist %&gt;%
+#   hclust %&gt;%
+#   as.phylo(subset,type=&quot;fan&quot;) %&gt;%
+#   plot
+
+fit &lt;-hclust(as.dist(cosineDist(subset, subset)))
+library(ape)
+
+
+
+# vector of colors
+mypal = c(&quot;#556270&quot;, &quot;#4ECDC4&quot;, &quot;#1B676B&quot;, &quot;#FF6B6B&quot;, &quot;#C44D58&quot;, &quot;seagreen1&quot;, &quot;seagreen4&quot;, &quot;slateblue4&quot;)
+# cutting dendrogram in 7 clusters
+clus = cutree(fit, 8)
+# plot
+# Size reflects frequency
+plot(as.phylo(fit), type = &quot;cladogram&quot;, tip.color = mypal[clus], cex = 0.7, col = &quot;red&quot;,no.margin=TRUE)</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot7-1.png" width="1152" /></p>
+<pre class="r"><code>plot(as.phylo(fit), type=&quot;unrooted&quot;, tip.color = mypal[clus], cex = 0.7, col = &quot;red&quot;,no.margin=TRUE)</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot7-2.png" width="1152" /></p>
+<p>Sur la partie gauche du dendogramme ressortent les notions sociales de la pratique du quantified self. Camarades et inconnus se retrouvent sur ces plate-formes afin d’y rechercher la motivation nécessaire dans l’évolution de leurs performances. On retrouve aussi pléthore de verbes ayant trait à l’observation, l’évaluation, soulignant encore l’aspect rationnel du quantified self.</p>
+<p>On aperçoit, malgré tout, une composante importante du quantified self qui manque : le besoin d’objets connectés, ici smartphone ou montre connectée.</p>
+<p>L’analyse TSNE permet de projeter sur un espace à deux dimensions nos vecteurs de mots, permettant ainsi une autre visualisation des similarités.</p>
+<pre class="r"><code>#plot(subset,perplexity=20)
+
+library(Rtsne)
+
+# run Rtsne with default parameters
+rtsne_out &lt;- Rtsne(as.matrix(subset), perplexity=5)
+
+# plot the output of Rtsne into d:\\barneshutplot.jpg file of 2400x1800 dimension
+#jpeg(&quot;d:\\barneshutplot.jpg&quot;, width=2400, height=1800)
+plot(rtsne_out$Y, t=&#39;n&#39;, main=&quot;le champ lexical: &#39;mesurer&#39;, &#39;performance&#39;, &#39;social&#39;, &#39;motivation&#39;&quot;)
+text(rtsne_out$Y, labels=rownames(subset),cex=.7)</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot8-1.png" width="768" /></p>
+<p>On parvient à distinguer plusieurs pôles : la dithyrambe; la facilité d’utilisation; un pôle technologie dans la partie haute droite du graphique; dans la partie inférieure, le pôle des activités; sur la droite, l’enregistrement et la localisation des activités; sur la gauche, les performances, la progression et la motivation.</p>
+<p>Nous allons reprendre nos thèmes de mesure de performance et de social afin de restreindre l’ensemble des vecteurs représentés. Cependant, comme nous l’avons vu plus haut, la dimension technologique n’apparaissait pas dans notre classification. Aussi, modifions donc les mots choisis de façon à intégrer cet aspect là du quantified self et, pour simplifier, prenons une vision individualiste du quantified self. Une tendance forte de la pratique du quantified self, aperçue dans notre première classification, et que l’on retrouve dans la littérature (par exemple Choe et al, 2014), est celle de la définition d’objectifs.</p>
+<pre class="r"><code>#Avec les 3 mots identifiés
+q_self = model[[c(&quot;analyse&quot;, &quot;objectifs&quot;, &quot;appareil&quot;),average=F]]
+
+# model[1:2000,] restreint notre classification aux 2000 mots les plus communs
+q_self_words = model[1:2000,] %&gt;% cosineSimilarity(q_self)
+
+# On filtre sur les top 20 de chaque catégorie
+q_self_words = q_self_words[
+  rank(-q_self_words[,1])&lt;20 |
+    rank(-q_self_words[,2])&lt;20 | 
+    rank(-q_self_words[,3])&lt;20,
+  ]
+
+q_self_words %&gt;% 
+  prcomp %&gt;% 
+  biplot(main=&quot;Les mots du quantified self&quot;, cex=0.6)</code></pre>
+<p><img src="fitnessapp_files/figure-html/mot9-1.png" width="768" /></p>
+<p>Au coeur de l’analyse, on retrouve ici le facteur de motivation que représente la communauté des quantified selfers. C’est cette réflexion devant ses propres performances, mises en perspective avec celles des autres, qui est le facteur de motivation pour se dépasser. Le dépassement intervient dans la définition d’objectifs par l’utilisateur. Enfin, le quantified selfer, en tant qu’être mesuré, s’appuie sur un équipement de plus en plus complexe afin de s’observer, et, in fine, d’affiner son analyse.</p>
+</div>
+<div id="références" class="section level2">
+<h2>Références</h2>
+<p>Choe, E.K., Lee, N.B., Lee, B., Pratt, W., Kientz, J.A.(2014) : Understanding quantified-selfers’ practices in collecting and exploring personal data. In: Proceedings of the 32nd Annual ACM Conference on Human Factors in Computing Systems, pp. 1143–1152. ACM (2014)</p>
+<p>Kozlowski, A. C., Taddy, M., &amp; Evans, J. A. (2019). The Geometry of Culture: Analyzing the Meanings of Class through Word Embeddings. American Sociological Review, 84(5), 905–949. <a href="https://doi.org/10.1177/0003122419877135" class="uri">https://doi.org/10.1177/0003122419877135</a></p>
+<p>Lupton, D. (2015). Lively data, social fitness and biovalue: The intersections of health self‐tracking and social media. Ssrn Electronic Journal, 411(9), 1–20.</p>
+<p>Mikolov, T., Sutskever, I., Chen, K., Corrado, G. S., &amp; Dean, J. (2013). Distributed Representations of Words and Phrases and their Compositionality. In C. J. C. Burges, L. Bottou, M. Welling, Z. Ghahramani, &amp; K. Q. Weinberger (Éd.), Advances in Neural Information Processing Systems 26 (p. 3111–3119). Curran Associates, Inc. <a href="http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf" class="uri">http://papers.nips.cc/paper/5021-distributed-representations-of-words-and-phrases-and-their-compositionality.pdf</a></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
