@@ -3,7 +3,9 @@ title: "Courir après un meilleur soi"
 author: "Valentin Mesa - Halim Rahmani - Allan Lhoni / Master GDO-Mopp Université Paris Nanterre"
 date: "15 mars 2020"
 output:
-  html_document: default
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
 ---
 <style type="text/css">
 body, td {
