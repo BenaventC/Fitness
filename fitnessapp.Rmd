@@ -41,7 +41,7 @@ Les trois applications touchent une population large : Strava, adidas Running by
 
 ## Récolte et préparation des données.
 
-À partir d’une méthode de scraping, nous avons constitué une base de données de plus de 30 000 commentaires provenant des quatre applications. La méthode de scraping consiste dans l’exécution dans la console développeur du navigateur Google Chrome d’un programme écrit en Javascript. Exécuté sur la page web de l’application dans le Google Play Store et sur l'Apple Store, ce code permet l’extraction de l'ensemble des commentaires contenus dans la page.
+À partir d’une méthode de scraping, nous avons constitué une base de données de plus de 30 000 commentaires provenant des quatre applications. La méthode de scraping consiste dans l’exécution dans la console développeur du navigateur Google Chrome d’un programme écrit en Javascript. Exécuté sur la page web de l’application dans le Google Play Store et sur l'Apple Store, ce code permet l’extraction de l'ensemble des commentaires contenus dans la page. Les données et le script sont disponible sur [github](https://github.com/BenaventC/Fitness).
 
 ```{r setup,include=FALSE}
 knitr::opts_chunk$set(include=TRUE,echo = TRUE, warning=FALSE,  message=FALSE, cache=TRUE,fig.width = 8)
@@ -98,9 +98,9 @@ if (!file.exists("quantified_self.txt")) {
   updated_vocab = filter(Vocab$token, !(upos %in% c('ADP','DET','SCONJ', 'PRON')))
   all_comments <- paste(updated_vocab['token'], sep= " ")
   write.table(all_comments, file="comments/comments.txt")
-  prep_word2vec(origin="comments",destination="quantified_self.txt",lowercase=T,bundle_ngrams=2)
+  prep_word2vec(origin="comments",destination="quantified_self.txt",lowercase=T,bundle_ngrams=3)
 }
-if (!file.exists("quantified_self_vectors.bin")) {model = train_word2vec("quantified_self.txt","quantified_self_vectors.bin",vectors=400,threads=4,window=8,iter=5,negative_samples=0)} else model = read.vectors("quantified_self_vectors.bin")
+if (!file.exists("quantified_self_vectors.bin")) {model = train_word2vec("quantified_self.txt","quantified_self_vectors.bin",vectors=100,threads=4,window=8,iter=5,negative_samples=0)} else model = read.vectors("quantified_self_vectors.bin")
 
 ```
 
@@ -186,7 +186,7 @@ L'aspect matériel jaillit surtout sous la forme de problèmes dans les avis des
 
 ## Le quantified self en une image
 
-Nous sélectionnons quatre mots qui condense la notion de quantified self : "mesurer", "performance" "motovation" et "social" et nous recherchons pour chacun les 20 mots qui leurs sont le plus proches et les précisent. En utilisant ces quatre mots ( et leurs corrélats), nous pouvons réaliser une première classification de notre corpus selon ces axes, que l'on va représenter sous la forme d'un dendogramm avec `Ape`.
+Nous sélectionnons quatre mots qui condense la notion de quantified self : "mesurer", "performance" "motovation" et "social" et nous recherchons pour chacun les 25 mots qui leurs sont le plus proches et les précisent. En utilisant ces quatre mots ( et leurs corrélats), nous pouvons réaliser une première classification de notre corpus selon ces axes, que l'on va représenter sous la forme d'un dendogramm avec `Ape`.
 
 ```{r mot7, fig.height=12, fig.width=12}
 q_words = c("mesurer", "performance", "social", "motivation")
@@ -195,7 +195,7 @@ term_set = lapply(q_words,
                     nearest_words = model %>% closest_to(model[[q_word]],25)
                     nearest_words$word
                   }) %>% unlist
-
+term_set
 subset = model[[term_set,average=F]]
 
 # subset %>%
@@ -212,7 +212,7 @@ library(ape)
 
 # vector of colors
 mypal = c("#556270", "#4ECDC4", "#1B676B", "#FF6B6B", "#C44D58", "seagreen1", "seagreen4", "slateblue4")
-# cutting dendrogram in 7 clusters
+# cutting dendrogram in 8 clusters
 clus = cutree(fit, 8)
 # plot
 # Size reflects frequency
@@ -231,21 +231,33 @@ L'analyse TSNE permet de projeter sur un espace à deux dimensions nos vecteurs 
 #plot(subset,perplexity=20)
 
 library(Rtsne)
+library(RColorBrewer)
 
 # run Rtsne with default parameters
+set.seed(57)
 rtsne_out <- Rtsne(as.matrix(subset), perplexity=5)
 
-# plot the output of Rtsne into d:\\barneshutplot.jpg file of 2400x1800 dimension
-#jpeg("d:\\barneshutplot.jpg", width=2400, height=1800)
+#jpeg("fig.jpg", width=2400, height=1800)
+color.vec = c("#556270", "#4ECDC4", "#1B676B", "#FF6B6B", "#C44D58", "seagreen1", "seagreen4", "slateblue4")
+
+  brewer.pal(8, "Set3")
+
+clus<-as.data.frame(clus)
+clus$word<-rownames(clus)
+terms<-as.data.frame(rownames(subset))
+terms$word<-terms[,1] 
+terms<-terms %>% left_join(clus, by = "word")
+
 plot(rtsne_out$Y, t='n', main="le champ lexical: 'mesurer', 'performance', 'social', 'motivation'")
-text(rtsne_out$Y, labels=rownames(subset),cex=.7)
+text(rtsne_out$Y, labels=rownames(subset),cex=.7,col=color.vec[terms$clus])
 
 ```
 
 On parvient à distinguer plusieurs pôles : la dithyrambe; la facilité d'utilisation; un pôle technologie dans la partie haute droite du graphique; dans la partie inférieure, le pôle des activités; sur la droite, l'enregistrement et la localisation des activités; sur la gauche, les performances, la progression et la motivation.
 
-Nous allons reprendre nos thèmes de mesure de performance et de social afin de restreindre l'ensemble des vecteurs représentés. Cependant, comme nous l'avons vu plus haut, la dimension technologique n'apparaissait pas dans notre classification. Aussi, modifions donc les mots choisis de façon à intégrer cet aspect là du quantified self et, pour simplifier, prenons une vision individualiste du quantified self. Une tendance forte de la pratique du quantified self, aperçue dans notre première classification, et que l'on retrouve dans la littérature (par exemple Choe et al, 2014), est celle de la définition d'objectifs.
+## Et pour cibler un concept de plusieurs mots, une bonne vieille ACP
 
+Nous allons reprendre nos thèmes de mesure de performance et de social afin de restreindre l'ensemble des vecteurs représentés. Cependant, comme nous l'avons vu plus haut, la dimension technologique n'apparaissait pas dans notre classification. Aussi, modifions donc les mots choisis de façon à intégrer cet aspect là du quantified self et, pour simplifier, prenons une vision individualiste du quantified self. Une tendance forte de la pratique du quantified self, aperçue dans notre première classification, et que l'on retrouve dans la littérature (par exemple Choe et al, 2014), est celle de la définition d'objectifs.
 
 
 ```{r mot9, fig.height=8, fig.width=8}
