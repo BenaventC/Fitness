@@ -27,7 +27,7 @@ pre {
   font-size: 11px
 }
 </style>
-#![GPS drawing](RequinGpsDrawing.jpeg){ width=65% }
+![GPS drawing](RequinGpsDrawing.jpeg){ width=65% }
 
 Depuis quelques années, la question du quantified self est posée. Les technologies permettent de nos jours de mesurer notre activité physique (sport, sommeil, ou données biologiques simples comme la fréquence cardiaque) à moindre frais. 
 
