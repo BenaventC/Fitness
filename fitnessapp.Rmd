@@ -39,9 +39,9 @@ Pour faire surgir les concepts du quantified self dans les textes récoltés, no
 
 ## La course aux données : des applications bien installées
 
-Nous avons choisi quatre applications destinées à la capture de l'activité physique, en particulier la course à pied : Strava (2009), adidas Running by Runtastic (2009), Runkeeper (2008), et Endomondo (2007). Ces quatre applications se servent de la fonctionnalité GPS du téléphone ou de d'autres appareils connectés afin de récolter diverses données liées à la course (temps, vitesse, élévation, etc.). Ces plate-formes permettent aussi à leurs utilisateurs de récolter d'autres données biologiques s'ils ont le capteur correspondant. Par exemple, elles intègrent le rythme cardiaque à condition que l'utilisateur possède une brassard ou une montre connectés. Chaque plate-forme propose par ailleurs un service d'abonnement, ou premium, qui permet aux utilisateurs d'avoir accès à différents modes de présentation de leurs données, mais aussi des programmes d'entraînement plus poussés.
+Nous avons choisi quatre applications destinées à la capture de l'activité physique, en particulier la course à pied : Strava (2009), adidas Running by Runtastic (2009), Runkeeper (2008), et Endomondo (2007). Ces quatre applications se servent de la fonctionnalité GPS du téléphone ou celle d'autres appareils connectés afin de récolter diverses données liées à la course (temps, vitesse, élévation, etc.). Ces plate-formes permettent aussi à leurs utilisateurs de récolter d'autres données biologiques s'ils ont le capteur correspondant. Par exemple, elles intègrent le rythme cardiaque à condition que l'utilisateur possède une brassard ou une montre connectés. Chaque plate-forme propose par ailleurs un service d'abonnement, ou premium, qui permet aux utilisateurs d'avoir accès à différents modes de présentation de leurs données, mais aussi des programmes d'entraînement plus poussés.
 
-Les trois applications touchent une population large : Strava, adidas Running by Runtastic et Endomondo comptabilisent chacune plus de 10 millions de téléchargements rien que sur le Google Play Store, tandis que Runkeeper peut se targuer de plus de 50 millions de téléchargements, là aussi sur le store de Google. Tandis que Strava est un "pure player" de la plate-forme, adidas Running by Runtastic, Runkeeper et Endomondo se positionnent dans le domaine des capteurs connectés. Autrefois indépendants, Runtastic a été acheté par adidas, Runkeeper par ASICS, et Endomondo par Under Armour.
+Les quatre applications touchent une population large : Strava, adidas Running by Runtastic et Endomondo comptabilisent chacune plus de 10 millions de téléchargements rien que sur le Google Play Store, tandis que Runkeeper peut se targuer de plus de 50 millions de téléchargements, là aussi sur le store de Google. Tandis que Strava est un "pure player" de la plate-forme, adidas Running by Runtastic, Runkeeper et Endomondo se positionnent dans le domaine des capteurs connectés. Autrefois indépendants, Runtastic a été acheté par adidas, Runkeeper par ASICS, et Endomondo par Under Armour.
 
 ## Récolte et préparation des données.
 
@@ -71,29 +71,36 @@ https://github.com/bmschmidt/wordVectors.
 
 Afin de préparer le modèle vectoriel, nous avons rassemblé dans un unique fichier texte l'ensemble des commentaires, après avoir utilisé un module de NLP afin de supprimer les mots vides (stopwords).
 
-La création du modèle vectoriel se fait en deux étapes. Tout d'abord, on appelle la fonction `prep_word2vec` qui permet de nettoyer notre fichier de commentaires. Le paramètre `bundle_ngrams`valant 2, la fonction va regrouper des paquets de 2 mots fréquemment utilisés ensemble. Enfin la fonction `train_word2vec` va créer le modèle proprement dit, et l'inscrire dans un fichier pour éviter de répéter l'opération lors d'usages ponctuels.
+La création du modèle vectoriel se fait en deux étapes. Tout d'abord, on appelle la fonction `prep_word2vec` qui permet de nettoyer notre fichier de commentaires. Le paramètre `bundle_ngrams`valant 3, la fonction va regrouper des paquets (n-grammes) de 3 mots fréquemment utilisés ensemble. Enfin la fonction `train_word2vec` va créer le modèle proprement dit, et l'inscrire dans un fichier pour éviter de répéter l'opération lors d'usages ponctuels.
 
 ```{r lemme0, echo = TRUE, results = "hide"}
 if (!file.exists("quantified_self.txt")) {
-  #si le fichier n'existe pas, on lit nos données brutes, et on nettoie    le corpus des stop words
+  #si le fichier n'existe pas, on lit nos données brutes, et on nettoie le corpus des stop words
   cnlp_init_udpipe(model_name = "french")
   #lecture de l'ensemble de nos commentaires
   obj<-read_delim("fitness.csv", ",", escape_double = FALSE, trim_ws = TRUE)
- 
-   Vocab<-cnlp_annotate(obj)
+  #suppression des emojis
+  obj['text'] = as.data.frame(lapply(obj['text'], function(y) gsub("[\U{1F300}-\U{1F6FF}]", "le", y)))
+  #Annotation des commentaires afin de pouvoir identifier les stopwords
+  Vocab<-cnlp_annotate(obj)
   #filtrage sur les stopwords
   updated_vocab = filter(Vocab$token, !(upos %in% c('ADP','DET','SCONJ', 'PRON')))
   all_comments <- paste(updated_vocab['token'], sep= " ")
   write.table(all_comments, file="comments/comments.txt")
+  #Nettoyage des commentaires et identification des n-grammes en vue d'entraîner le modèle
   prep_word2vec(origin="comments",destination="quantified_self.txt",lowercase=T,bundle_ngrams=3)
 }
-if (!file.exists("quantified_self_vectors.bin")) {model = train_word2vec("quantified_self.txt","quantified_self_vectors.bin",vectors=100,threads=4,window=8,iter=5,negative_samples=0)} else model = read.vectors("quantified_self_vectors.bin")
+#Création et entraînement du modèle vectoriel
+if (!file.exists("quantified_self_vectors.bin")) {
+  model = train_word2vec("quantified_self.txt","quantified_self_vectors.bin",vectors=100
+                         ,threads=4,window=8,iter=5,negative_samples=0)
+} else model = read.vectors("quantified_self_vectors.bin")
 ```
 
 
 ## Exploration du modèle vectoriel : à la recherche du quantified self
 
-
+Nous commençons par la recherche des n-grammes les plus proches des dimensions du quantified self.
 ```{r mot1 }
 ##Sportifs
 foo<-model %>% closest_to("sportifs",30)
@@ -130,19 +137,27 @@ foo<-model %>% closest_to(c("bluetooth","synchronisation"),25)
 foo=foo[-1:-2,]
 foo$Similarity<-foo[,2]
 g6<-ggplot(foo, aes(x=reorder(word, Similarity),y=Similarity))+geom_point(col="black",size=3)+coord_flip()+theme_minimal()+scale_y_log10()+ggtitle("Figure 6 : Ngrammes proches de Bluetooth+Synchronisation")
+
+#Assemblage de nos graphiques
 grid.arrange(g1, g2, g3, g4, g5, g6)
 ```
-Qui sont les quantified selfers ? Ce sont des "pros", des sportifs "confirmés", qui cherchent l'"excellence" (cf. Figure 1). Remarquons ici les deux sports majoritaires : la course et le cyclisme. 
+###Qui sont les quantified selfers ? 
+Ce sont des "pros", des sportifs "confirmés", qui cherchent l'"excellence" (cf. Figure 1). Mais il y a aussi des amateurs ! Déjà apparaissent des notions phares : le dépassement, la compétition. Les quantified selfers évoluent avec leur entourage, leurs "copains" mais aussi leurs "collègues". Remarquons ici les deux sports majoritaires : la course et le cyclisme. 
 
-Au coeur de la notion de quantified self résident les données, la ressource principale de ces plate-formes (cf. Figure 2).La qualité de la donnée est ici une préoccupation forte des quantified selfers. Ils s'inscrivent dans une pratique rationnelle du sport, aussi toute donnée "erronée", "incohérente", ou tout simplement "fausse" vient contrecarrer leurs plans.
+###La mesure
+Au coeur de la notion de quantified self résident les données, la ressource principale de ces plate-formes (cf. Figure 2). La qualité de la donnée est ici une préoccupation forte des quantified selfers : à bas les mesures "farfelues", "fantaisistes" ou tout simplement "fausses" !
 
-Nous poursuivons en cherchant les mots associés aux "performances", ce qui nous montre deux choses à proposes du suivi des performances sur ces applicationsn (cf. Figure 3). Premièrement, la mesure de la performance est l'occasion pour le quantified selfer d'entamer une rélfexion sur soi : le jugement et l'observation sont de mise. Ensuite, le besoin de comparer performances présentes et passées est aussi présent ("évolutions", "comparer performances").
+###La performance
+Nous poursuivons en cherchant les mots associés aux "performances", ce qui nous montre deux choses à proposes du suivi des performances sur ces applications (cf. Figure 3). Premièrement, la mesure de la performance est l'occasion pour le quantified selfer d'entamer une rélfexion sur soi, en vue de se "situer" par rapport à un "idéal" : le jugement et l'observation sont de mise. Ensuite, le besoin de comparer performances présentes et passées est aussi présent ("évolutions", "constater des progrès").
 
-Dans quel but les utilisateurs sont-ils motivés ? Le dépassement de soi ("dépasser" en troisième position), mais on trouve aussi en filigrane la motivation à mesurer ses performances, les comparer (cf. Figure 4). Toutefois, notons ici que les quantified selfers entretiennent non seulement leur motivation, mais aussi leur forme ! La motivation par l'encourgament nous montre que le quantified self n'est pas une affaire seulement personnelle. 
+###La motivation
+Dans quel but les utilisateurs sont-ils motivés ? Si la mesure de soi est une source de motivation endogène, on ne peut que constater la puissance de "l'aspect communautaire" (cf. Figure 4). La motivation par l'encourgament nous montre que le quantified self n'est pas une affaire seulement personnelle. 
 
-La composante sociale (cf. Figure 5) apparaît ici comme un vecteur important de motivation ("hyper motivant" en quatrième position). Le social fitness est ici à l'honneur : les capacités de réseau social de ces applications de mesure de soi sont en effet mises en avant sur les pages mêmes des différents "app stores". Mais si le partage est une dimension importante du social fitness, le défi et la compétition en sont une composante.
+###Social fitness
+La composante sociale (cf. Figure 5) vient le confirmer : elle est "hyper motivante". Le social fitness est ici à l'honneur : les capacités de réseau social de ces applications de mesure de soi sont en effet mises en avant sur les pages mêmes des différents "app stores". Mais si le partage est une dimension importante du social fitness, le défi et la compétition y jouent pour beaucoup.
 
-Enfin, le quantified self est fortement lié à la technologie, et au besoin de synchronisation entre capteurs et applications (cf. Figure 6). L'aspect matériel jaillit surtout sous la forme de problèmes dans les avis des utilisateurs. Dans un besoin de précision et de confort, les quantified selfers ont recours à une variété de capteurs, dont on retrouve quelques représentants ci-dessus. Les applications doivent être capables de gérer ces différentes sources de données, aussi il n'est pas étonnant de constater le mécontentement de certains.
+###La technologie
+Enfin, le quantified self est fortement lié à la technologie, et au besoin de synchronisation entre capteurs et applications (cf. Figure 6). L'aspect matériel jaillit surtout sous l'avalanche de marques, de types de capteurs, mais on y trouve néanmoins la question fondamentale : sont-ils "compatibles" ?
 
 ```{r}
 tastes = model[[c("bluetooth","synchronisation"),average=F]]
@@ -156,6 +171,7 @@ techno = techno[
 plot(techno,type='n',main = "Figure 7: Projection des mots associés à Bluetooth+Synchronisation")
 text(techno,labels=rownames(techno), cex=.7)
 ```
+La Figure 7 est une visualisation alternative du champ lexical de la technologie.
 
 ## Le quantified self en une image
 
@@ -178,15 +194,13 @@ mypal = c("#556270", "#4ECDC4", "#1B676B", "#FF6B6B", "#C44D58", "seagreen1", "s
 clus = cutree(fit, 8)
 # plot
 # Size reflects frequency
-plot(as.phylo(fit), type = "cladogram", tip.color = mypal[clus], cex = 0.7, col = "red",no.margin=TRUE, main = "Figure 8: Classification du corpus autour de Mesurer+Performance+Motivation+Social")
+plot(as.phylo(fit), type = "cladogram", tip.color = mypal[clus], cex = 0.9, col = "red",no.margin=TRUE, main = "Figure 8: Classification du corpus autour de Mesurer+Performance+Motivation+Social")
 
 plot(as.phylo(fit), type="unrooted", tip.color = mypal[clus], cex = 0.7, col = "red",no.margin=TRUE, main = "Figure 9: Classification du corpus autour de Mesurer+Performance+Motivation+Social - visualisation alternative")
 
 ```
 
-Sur la partie gauche du dendogramme ressortent les notions sociales de la pratique du quantified self. Camarades et inconnus se retrouvent sur ces plate-formes afin d'y rechercher la motivation nécessaire dans l'évolution de leurs performances. On retrouve aussi pléthore de verbes ayant trait à l'observation, l'évaluation, soulignant encore l'aspect rationnel du quantified self.
-
-On aperçoit, malgré tout, une composante importante du quantified self qui manque : le besoin d'objets connectés, ici smartphone ou montre connectée.
+On note en haut du dendogramme un premier cluster rassemblant la dynamique communautaire du quantified self : l'échange et l'analyse de performances avec le monde entier. Les clusters suivants se rapportent à l'outil des quantified selfers, qui leur permet de rationaliser leur pratique : ils planifient, mesurent, contrôlent, évaluent, gèrent. Si la motivation est diffuse dans l'ensemble des clusters, elle est en exergue dans le dernier cluster, un résultat du quantified self comme pratique sociale. On aperçoit, malgré tout, le peu de présence de la matérialité du quantified self, qui n'est ici représentée que par le stockage des données.
 
 L'analyse TSNE permet de projeter sur un espace à deux dimensions nos vecteurs de mots, permettant ainsi une autre visualisation des similarités.
 
@@ -213,7 +227,7 @@ text(rtsne_out$Y, labels=rownames(subset),cex=1.1,col=color.vec[terms$clus])
 
 ```
 
-On parvient à distinguer plusieurs pôles : la dithyrambe; la facilité d'utilisation; un pôle technologie dans la partie haute droite du graphique; dans la partie inférieure, le pôle des activités; sur la droite, l'enregistrement et la localisation des activités; sur la gauche, les performances, la progression et la motivation.
+Remarquons au centre les mots liés au social, autour desquels gravitent nos différents clusters. La motivation apparaît régulièrement dans le graphique, confirmant son omniprésence dans les pratiques des quantified selfers.
 
 ## Et pour cibler un concept de plusieurs mots, une bonne vieille ACP
 
